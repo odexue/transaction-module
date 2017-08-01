@@ -20,7 +20,7 @@ public class TransactionStorageTest {
 	public void saveTest() {
 		Transaction trans = new Transaction(12.4, 1478192204000l);
 		transactionStorage.save(trans);
-		assertTrue(transactionStorage.getStorage().size() == 1);
+		assertTrue(transactionStorage.getStorageList().size() == 1);
 	}
 
 }

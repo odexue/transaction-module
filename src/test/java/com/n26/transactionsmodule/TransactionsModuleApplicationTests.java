@@ -8,6 +8,8 @@ import java.time.temporal.ChronoUnit;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -23,6 +25,8 @@ import com.n26.transactionsmodule.dto.TransactionStatistics;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 public class TransactionsModuleApplicationTests {
+	
+	private static final Logger logger = LoggerFactory.getLogger(TransactionsModuleApplicationTests.class);
 	
 	@Autowired
     private TestRestTemplate restTemplate;
@@ -52,9 +56,20 @@ public class TransactionsModuleApplicationTests {
 		trans = new Transaction(12.4, now.toEpochMilli());
 		restTemplate.postForEntity(API_TRANSACTION, trans, String.class);
 		
+		now = Instant.now();
+		now = now.minusSeconds(20l);
+		trans = new Transaction(12.4, now.toEpochMilli());
+		restTemplate.postForEntity(API_TRANSACTION, trans, String.class);
+		
+		now = Instant.now();
+		now = now.minusSeconds(20l);
+		trans = new Transaction(12.4, now.toEpochMilli());
+		restTemplate.postForEntity(API_TRANSACTION, trans, String.class);
+		
+		
 		ResponseEntity<TransactionStatistics> responseEntityStat = restTemplate.getForEntity(API_STATISTICS, TransactionStatistics.class);
-		assertTrue(responseEntityStat.getBody().getCount() == 2);
-		assertTrue(responseEntityStat.getBody().getSum() == (12.4*2));
+		assertTrue(responseEntityStat.getBody().getCount() == 4);
+		assertTrue(responseEntityStat.getBody().getSum() == (12.4*4));
 	}
 	
 }

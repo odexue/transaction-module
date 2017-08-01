@@ -53,14 +53,14 @@ public class TransactionStatisticsSvcImplTest {
 	
 	@Test
 	public void getStatisticsTest() {
-		when(transactionStorage.getStorage()).thenReturn(dummyMap());
+		when(transactionStorage.getStorageList()).thenReturn(dummyMapList());
 		TransactionStatistics transStat = svcImpl.getStatistics();
 		assertTrue(transStat.getCount() == 1);
 	}
 	
 	@Test
 	public void getTransListTest() {
-		List<Transaction> list = svcImpl.getTransList(dummyMap());
+		List<Transaction> list = svcImpl.getAllTransList(dummyMapList());
 		assertTrue(list.size() == 1);
 	}
 	
@@ -89,5 +89,21 @@ public class TransactionStatisticsSvcImplTest {
 		map.put(target, new Transaction(12.33, target.toEpochMilli()));
 		return map;
 	}
+	
+	private ConcurrentNavigableMap<Instant, List<Transaction>> dummyMapList() {
+		List<Transaction> transList = new ArrayList<>();
+		Instant target = now.minusSeconds(40l);
+		Transaction trans = new Transaction(12.33, target.toEpochMilli());
+		transList.add(trans);
+		ConcurrentNavigableMap<Instant, List<Transaction>> map = new ConcurrentSkipListMap<>();
+		map.put(target, transList);
+		return map;
+	}
 
 }
+
+
+
+
+
+
