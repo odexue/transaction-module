@@ -20,7 +20,7 @@ import org.mockito.MockitoAnnotations;
 import com.n26.transactionsmodule.db.TransactionStorage;
 import com.n26.transactionsmodule.dto.Transaction;
 import com.n26.transactionsmodule.dto.TransactionStatistics;
-import com.n26.transactionsmodule.exceptions.OlderThanSixtySecException;
+import com.n26.transactionsmodule.exceptions.InvalidDataException;
 
 
 public class TransactionStatisticsSvcImplTest {
@@ -45,7 +45,7 @@ public class TransactionStatisticsSvcImplTest {
 		boolean noError = true;
 		try {
 			svcImpl.addTransaction(trans);
-		} catch (OlderThanSixtySecException e) {
+		} catch (InvalidDataException e) {
 			noError = false;
 		}
 		assertFalse(noError);

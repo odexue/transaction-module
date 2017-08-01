@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import com.n26.transactionsmodule.db.TransactionStorage;
 import com.n26.transactionsmodule.dto.Transaction;
 import com.n26.transactionsmodule.dto.TransactionStatistics;
-import com.n26.transactionsmodule.exceptions.OlderThanSixtySecException;
+import com.n26.transactionsmodule.exceptions.InvalidDataException;
 import com.n26.transactionsmodule.util.ValidationUtil;
 
 @Service
@@ -29,13 +29,11 @@ public class TransactionStatisticsSvcImpl implements TransactionsStatService {
 	private TransactionStorage tansactionStorage;
 	
 	@Override
-	public void addTransaction(Transaction transaction) throws OlderThanSixtySecException {
-		Instant now = Instant.now();
-		//WILL DO CHECKS TO SEE IF TRANSACTION'S TIMESTAMP IS OLDER THAN 60 SECONDS. IF TRUE, IT WON'T SAVE THE DATA
-		if(ValidationUtil.isTransactionValid(transaction) && !ValidationUtil.isOlderThan60Secs(transaction.getTimestamp(), now)) {
+	public void addTransaction(Transaction transaction) throws InvalidDataException {
+		if(ValidationUtil.isTransactionValid(transaction)) {
 			tansactionStorage.save(transaction);
 		} else {
-			throw new OlderThanSixtySecException("Time stamp is older than sixty seconds");
+			throw new InvalidDataException("Cannot save invalid data");
 		}
 	}
 

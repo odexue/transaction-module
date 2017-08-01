@@ -12,17 +12,10 @@ import com.n26.transactionsmodule.dto.Transaction;
 
 
 public class ValidationUtilTest {
-
-private Instant now;
-	
-	@Before
-	public void setup() {
-		now = Instant.now();
-	}
 	
 	@Test
 	public void isOlderThan60SecsTest() {
-		assertTrue(ValidationUtil.isOlderThan60Secs(1504200549000l, this.now));
+		assertFalse(ValidationUtil.isOlderThan60Secs(1504200549000l));
 	}
 	
 	@Test

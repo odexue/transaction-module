@@ -39,7 +39,7 @@ public class TransactionsModuleApplicationTests {
 		assertNotNull(restTemplate);
 		
 		Instant now = Instant.now();
-		now = now.plus(20l, ChronoUnit.HOURS);
+		now = now.minus(20l, ChronoUnit.HOURS);
 		
 		Transaction trans = new Transaction(12.4, now.toEpochMilli());
 		ResponseEntity responseEntity = restTemplate.postForEntity(API_TRANSACTION, trans, String.class);

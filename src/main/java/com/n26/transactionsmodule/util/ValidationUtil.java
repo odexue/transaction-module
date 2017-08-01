@@ -19,9 +19,11 @@ public final class ValidationUtil {
 		return false;
 	}
 	
-	public static boolean isOlderThan60Secs(long timeStamp, Instant now) {
+	public static boolean isOlderThan60Secs(long timeStamp) {
 		Instant targetInstant = Instant.ofEpochMilli(timeStamp);
-		if(targetInstant.isAfter(now)) {
+		Instant now = Instant.now();
+		Instant sixtySecsAgo = now.minusSeconds(60l);
+		if(targetInstant.isBefore(sixtySecsAgo)) {
 			return true;
 		}
 		return false;
